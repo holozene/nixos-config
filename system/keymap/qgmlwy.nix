@@ -1,11 +1,5 @@
 { config, lib, pkgs, ... }:
-
-{
-  services.xserver.xkbVariant = lib.mkOverride rec {
-    description  = "carpalx qgmlwy";
-    languages    = [ "eng" ];
-    # todo: make sure extension is correct
-    layout = pkgs.writeText "qgmlwy" ''
+let file = pkgs.writeText "qgmlwy" ''
       partial alphanumeric_keys
       xkb_symbols "qgmlwy" {
 
@@ -65,6 +59,13 @@
         key <BKSL> { [ backslash, bar ] };
       };
     '';
-    symbolsFile  = "${layout.name}";
+in {
+  inherit file;
+  services.xserver.xkbVariant = lib.mkOverride rec {
+    description  = "carpalx qgmlwy";
+    languages    = [ "eng" ];
+    # todo: make sure extension is correct
+    layout = file;
+    symbolsFile  = "${file.name}";
   };
 }
