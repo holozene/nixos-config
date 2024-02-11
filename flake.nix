@@ -76,7 +76,7 @@
           modules = [ (./. + "/profiles"+("/"+systemSettings.profile)+"/home.nix") # load home.nix from selected PROFILE
                     #  inputs.nix-flatpak.homeManagerModules.nix-flatpak # Declarative flatpaks
                     ];
-          extraSpecialArgs = {
+          home-manager.extraSpecialArgs = {
             # pass config variables from above
             inherit pkgs-stable;
             inherit systemSettings;
