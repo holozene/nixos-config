@@ -68,5 +68,5 @@
     };
   };
   
-  services.xserver.xkb.layout = "qgmlwy";
+  services.xserver.xkb.layout = lib.mkDefault "qgmlwy";
 }
