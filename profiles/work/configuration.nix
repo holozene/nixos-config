@@ -13,7 +13,8 @@
       ../../system/hardware/opengl.nix
       ../../system/hardware/printing.nix
       ../../system/hardware/bluetooth.nix
-      (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # My window manager
+      (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # window manager
+      (./. + "../../../system/keymap"+("/"+userSettings.keymap)+".nix") # keymap
       ../../system/app/flatpak.nix
       ../../system/app/virtualization.nix
       # ( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
