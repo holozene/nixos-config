@@ -14,7 +14,7 @@
       ../../system/hardware/printing.nix
       ../../system/hardware/bluetooth.nix
       (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # window manager
-      (./. + "../../../system/keymap"+("/"+userSettings.keymap)+".nix") # keymap
+      (if (userSettings.keymap != "") then (./. + "../../../system/keymap"+("/"+userSettings.keymap)+".nix") else null) # keymap
       ../../system/app/flatpak.nix
       ../../system/app/virtualization.nix
       # ( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
