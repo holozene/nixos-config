@@ -3,8 +3,10 @@ let
 
   # My shell aliases
   myAliases = {
+    cd = "zoxide";
     ls = "eza --icons -l -T -L=1";
     cat = "bat";
+    tree = "tre";
     htop = "btm";
     fd = "fd -Lu";
     w3m = "w3m -no-cookie -v";
@@ -13,6 +15,7 @@ let
     gitfetch = "onefetch";
     nixos-rebuild = "systemd-run --no-ask-password --uid=0 --system --scope -p MemoryLimit=16000M -p CPUQuota=60% nixos-rebuild";
     home-manager = "systemd-run --no-ask-password --uid=1000 --user --scope -p MemoryLimit=16000M -p CPUQuota=60% home-manager";
+    nixswitch = "systemd-run --no-ask-password --uid=0 --system --scope -p MemoryLimit=16000M -p CPUQuota=60% nixos-rebuild switch";
   };
 in
 {
@@ -38,9 +41,21 @@ in
 
   home.packages = with pkgs; [
     disfetch lolcat cowsay onefetch
-    gnugrep gnused
-    bat eza bottom fd bc
-    direnv nix-direnv
+
+    gnugrep
+    gnused
+
+    bc
+    zoxide # better cd
+    eza # better ls
+    bat # better cat
+    tre-command # better tree
+    fd # find files by name
+    
+    bottom
+    
+    direnv
+    nix-direnv
   ];
 
   programs.direnv.enable = true;

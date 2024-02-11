@@ -13,24 +13,25 @@
       profile = "personal"; # select a profile defined from my profiles directory
       timezone = "America/Chicago"; # select timezone
       locale = "en_US.UTF-8"; # select locale
+      keymap = "qgmlwy";
     };
 
     # ----- USER SETTINGS ----- #
     userSettings = rec {
-      username = "emmet"; # username
-      name = "Emmet"; # name/identifier
-      email = "emmet@librephoenix.com"; # email (used for certain configurations)
+      username = "holozene"; # username
+      name = "Holozene"; # name/identifier
+      email = "holozene@proton.me"; # email (used for certain configurations)
       dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
       theme = "uwunicorn-yt"; # selcted theme from my themes directory (./themes/)
       wm = "hyprland"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
       # window manager type (hyprland or x11) translator
       wmType = if (wm == "hyprland") then "wayland" else "x11";
-      browser = "qutebrowser"; # Default browser; must select one from ./user/app/browser/
+      browser = "firefox"; # Default browser; must select one from ./user/app/browser/
       defaultRoamDir = "Personal.p"; # Default org roam directory relative to ~/Org
-      term = "alacritty"; # Default terminal command;
+      term = "wezterm"; # Default terminal command;
       font = "Intel One Mono"; # Selected font
       fontPkg = pkgs.intel-one-mono; # Font package
-      editor = "emacsclient"; # Default editor;
+      editor = "nvim"; # Default editor; must select one from ./user/app/editor/
       # editor spawning translator
       # generates a command that can be used to spawn editor inside a gui
       # EDITOR and TERM session variables must be set in home.nix or other module

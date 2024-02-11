@@ -10,6 +10,9 @@
 
   imports = [ ../work/home.nix # Personal is essentially work system + games
               ../../user/app/games/games.nix # Various videogame apps
+              ../../user/lang/godot/godot.nix # Game development
+              #../../user/pkgs/blockbench.nix # Blockbench ## marked as insecure
+              ../../user/pkgs/flstudio.nix # FLStudio
             ];
 
   home.stateVersion = "22.11"; # Please read the comment before changing.
@@ -18,15 +21,29 @@
     # Core
     zsh
     alacritty
-    librewolf
-    brave
+    firefox
     dmenu
     rofi
     git
     syncthing
 
+    discord
+
     # Media
     tuxpaint
+    blender
+    cura
+    obs-studio
+    #install kdenlive via flatpak due to missing plugins
+    #kdenlive
+    (pkgs.writeScriptBin "kdenlive-accel" ''
+      #!/bin/sh
+      DRI_PRIME=0 flatpak run org.kde.kdenlive "$1"
+    '')
+    movit
+    mediainfo
+    libmediainfo
+    mediainfo-gui
   ];
 
   xdg.enable = true;

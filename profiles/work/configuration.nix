@@ -16,7 +16,7 @@
       (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # My window manager
       ../../system/app/flatpak.nix
       ../../system/app/virtualization.nix
-      ( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
+      # ( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
       ../../system/security/doas.nix
       ../../system/security/gpg.nix
       ../../system/security/blocklist.nix
@@ -88,7 +88,7 @@
     home-manager
   ];
 
-  # I use zsh btw
+  # set zsh as shell
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
