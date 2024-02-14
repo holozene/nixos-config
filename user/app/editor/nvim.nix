@@ -41,7 +41,7 @@
       # manually loadable by calling `:packadd $plugin-name`
       opt = [ ];
     };
-  }
+  };
 
 }
 
