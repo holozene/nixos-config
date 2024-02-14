@@ -9,8 +9,8 @@
     defaultEditor = true;
 
     # load an alternate keymap in init.vim (nix doesn't support lua config)
-    configure = if (keymap == "qgmlwy") then {
-      customRC = ''
+    configure = if (keymap == "qgmlwy") then
+      ''
         noremap k a
         noremap j o
 
@@ -23,14 +23,13 @@
 
         inoremap hh <esc>
         vnoremap ' <esc>
-      '';
-    }
-    else {
-      customRC = ''
+      ''
+    else 
+      ''
         inoremap jj <esc>
         vnoremap ' <esc>
-      '';
-    };
+      ''
+    ;
 
     configure.packages.myVimPackage = with pkgs.vimPlugins; {
       # loaded on launch
