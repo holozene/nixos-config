@@ -9,7 +9,7 @@
     defaultEditor = true;
 
     # load an alternate keymap in init.vim (nix doesn't support lua config)
-    configure = if (keymap == "qgmlwy") then
+    configure.customRC = if (keymap == "qgmlwy") then
       ''
         noremap k a
         noremap j o
