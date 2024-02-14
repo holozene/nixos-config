@@ -28,8 +28,7 @@
       ''
         inoremap jj <esc>
         vnoremap ' <esc>
-      ''
-    ;
+      '';
 
     configure.packages.myVimPackage = with pkgs.vimPlugins; {
       # loaded on launch
