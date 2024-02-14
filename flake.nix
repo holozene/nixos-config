@@ -9,11 +9,11 @@
     # ---- SYSTEM SETTINGS ---- #
     systemSettings = {
       system = "x86_64-linux"; # system arch
-      hostname = "snowfire"; # hostname
+      hostname = "nixbox"; # hostname
       profile = "personal"; # select a profile defined from my profiles directory
-      timezone = "America/Chicago"; # select timezone
+      timezone = "America/Los_Angeles"; # select timezone
       locale = "en_US.UTF-8"; # select locale
-      keymap = "qgmlwy";
+      keymap = "us";
     };
 
     # ----- USER SETTINGS ----- #
@@ -22,8 +22,8 @@
       name = "Holozene"; # name/identifier
       email = "holozene@proton.me"; # email (used for certain configurations)
       dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
-      theme = "uwunicorn-yt"; # selcted theme from my themes directory (./themes/)
-      wm = "hyprland"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
+      theme = "uwunicorn"; # selcted theme from my themes directory (./themes/)
+      wm = "xmonad"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
       # window manager type (hyprland or x11) translator
       wmType = if (wm == "hyprland") then "wayland" else "x11";
       browser = "firefox"; # Default browser; must select one from ./user/app/browser/

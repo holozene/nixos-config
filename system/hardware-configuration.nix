@@ -4,30 +4,20 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "ata_piix" "ohci_pci" "ehci_pci" "ahci" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  services.btrfs.autoScrub = {
-    enable = true;
-    interval = "weekly";
-  };
-
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/637d8261-0650-4ece-a35b-59d97baf64a7";
-      fsType = "btrfs";
-      options = [ "noatime,compress-force=zstd:2,discard=async,commit=120,clear_cache,space_cache=v2,subvol=@" ];
+    { device = "/dev/disk/by-uuid/7d297b91-7bc4-4012-a940-881251bbcc5b";
+      fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."luks-385106b5-71f7-460e-9a2b-2416f3b54cb6".device = "/dev/disk/by-uuid/385106b5-71f7-460e-9a2b-2416f3b54cb6";
-
-  fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/F09D-73C9";
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/1D07-0B80";
       fsType = "vfat";
     };
 
@@ -38,9 +28,8 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp5s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp0s3.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  virtualisation.virtualbox.guest.enable = true;
 }

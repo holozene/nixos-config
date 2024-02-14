@@ -14,7 +14,7 @@
       ../../system/hardware/printing.nix
       ../../system/hardware/bluetooth.nix
       (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # window manager
-      (if (systemSettings.keymap != "") then (./. + "../../../system/keymap"+("/"+systemSettings.keymap)+".nix") else null) # keymap
+      # (if (systemSettings.keymap != null) then (./. + "../../../system/keymap"+("/"+systemSettings.keymap)+".nix") else null) # keymap
       ../../system/app/flatpak.nix
       ../../system/app/virtualization.nix
       # ( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
@@ -49,7 +49,7 @@
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.loader.efi.efiSysMountPoint = "/boot";
 
   # Networking
   networking.hostName = systemSettings.hostname; # Define your hostname.
