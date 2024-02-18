@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
+  console.useXkbConfig = true;
+  services.xserver.xkb.layout = lib.mkDefault "qgmlwy";
   services.xserver.xkb.extraLayouts = {
     qgmlwy = {
       description  = "carpalx qgmlwy";
@@ -67,6 +69,4 @@
       '';
     };
   };
-  
-  services.xserver.xkb.layout = lib.mkDefault "qgmlwy";
 }
