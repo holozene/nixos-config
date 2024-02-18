@@ -89,6 +89,7 @@
     git
     gh
     wget
+    fdisk
     parted
     bottom
   ];
