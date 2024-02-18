@@ -40,7 +40,7 @@
       "devtools.everOpened" = true;
 
       "widget.use-xdg-desktop-portal.file-picker" = 1;
-      "font.name.serif.x-western" = font;
+      # "font.name.serif.x-western" = font;
       "font.size.variable.x-western" = 20;
     };
   };
