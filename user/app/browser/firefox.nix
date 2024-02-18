@@ -4,7 +4,7 @@
   # Option installing firefox as default browser
   programs.firefox = {
     enable = true;
-    preferences = {
+    settings = {
       "browser.startup.page" = 3; # Resume Session on Start
 
       "browser.tabs.searchclipboardfor.middleclick" = true;
