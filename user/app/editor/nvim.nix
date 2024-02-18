@@ -1,4 +1,4 @@
-{ config, lib, pkgs, keymap, ... }:
+{ config, lib, pkgs, systemSettings, ... }:
 
 {
   # Module installing neovim
@@ -9,7 +9,7 @@
     defaultEditor = true;
 
     # load an alternate keymap in init.vim (nix doesn't support lua config)
-    configure.customRC = if (keymap == "qgmlwy") then
+    configure.customRC = if (systemSettings.keymap == "qgmlwy") then
       ''
         noremap k a
         noremap j o
