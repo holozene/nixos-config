@@ -12,7 +12,7 @@
     vimdiffAlias = true;
 
     # load an alternate keymap in init.vim (nix doesn't support lua config)
-    extraConfig = if (systemSettings.keymap == "qgmlwy") then
+    extraConfig = #if (systemSettings.keymap == "qgmlwy") then
       ''
         noremap k a
         noremap j o
@@ -26,12 +26,12 @@
 
         inoremap hh <esc>
         vnoremap ' <esc>
-      ''
-    else 
-      ''
-        inoremap jj <esc>
-        vnoremap ' <esc>
       '';
+    # else 
+    #   ''
+    #     inoremap jj <esc>
+    #     vnoremap ' <esc>
+    #   '';
 
     plugins = with pkgs.vimPlugins; [
       telescope-nvim
