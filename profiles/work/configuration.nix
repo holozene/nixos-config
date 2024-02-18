@@ -81,12 +81,16 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    vim
-    wget
     zsh
-    git
-    cryptsetup
     home-manager
+    cryptsetup
+    vim
+    bat
+    git
+    gh
+    wget
+    parted
+    bottom
   ];
 
   # set zsh as shell
