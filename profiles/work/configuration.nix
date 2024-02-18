@@ -89,7 +89,7 @@
     git
     gh
     wget
-    fdisk
+    unixtools.fdisk
     parted
     bottom
   ];
