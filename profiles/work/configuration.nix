@@ -91,13 +91,17 @@
     wget
     unixtools.fdisk
     parted
-    bottom
+    btop
   ];
 
   # set zsh as shell
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
+
+  programs.zsh.shellAliases = lib.mkDefault {
+    pullbuild = "cd ${userSettings.dotfilesDir} ; git pull ; sudo nixos-rebuild switch --flake .#system";
+  };
 
   fonts.fontDir.enable = true;
 
