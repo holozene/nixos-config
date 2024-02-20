@@ -1,5 +1,5 @@
 {
-  description = "Flake of LibrePhoenix";
+  description = "Virtualbox Test Install";
 
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nix-doom-emacs, nix-straight,
               stylix, blocklist-hosts, rust-overlay, hyprland-plugins,
@@ -10,7 +10,7 @@
     systemSettings = {
       system = "x86_64-linux"; # system arch
       hostname = "nixbox"; # hostname
-      profile = "personal"; # select a profile defined from my profiles directory
+      profile = "virtualbox"; # select a profile defined from my profiles directory
       timezone = "America/Los_Angeles"; # select timezone
       locale = "en_US.UTF-8"; # select locale
       keymap = "us";
