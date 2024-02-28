@@ -1,9 +1,6 @@
 { config, lib, pkgs, systemSettings, ... }:
 
 {
-  # Module installing neovim
-  home.packages = [ pkgs.vim pkgs.neovim ];
-
   programs.neovim = {
     enable = true;
     defaultEditor = true;
