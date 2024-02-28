@@ -4,14 +4,13 @@
   # Collection of useful CLI apps
   home.packages = with pkgs; [
     # core
-    zoxide # better cd
     eza # better ls
     bat # better cat
     tre-command # better tree
     mdcat # cat markdown
     viu # view images
     chafa # approximate images (very well)
-    
+
     # meta
     progress # check progress of core unix commands
     noti # notify user on command completion
@@ -25,7 +24,7 @@
     rsync # file copy
     aria # download utility
     xh # send http requests
-    git 
+    git
     gh
     # lazy-git # git tui
     # git-ignore # fetch .gitignore templates from gitignore.io
@@ -67,7 +66,7 @@
     libnotify
     timer
     tmux
-    
+
     brightnessctl
     w3m # terminal browser
     cava # audio visualizer

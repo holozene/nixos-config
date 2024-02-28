@@ -39,6 +39,8 @@ in
     shellAliases = myAliases;
   };
 
+  programs.zoxide.enable = true;
+
   home.packages = with pkgs; [
     disfetch lolcat cowsay onefetch
 
@@ -46,7 +48,6 @@ in
     gnused
 
     bc
-    zoxide # better cd
     eza # better ls
     bat # better cat
     tre-command # better tree
