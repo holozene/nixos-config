@@ -94,6 +94,8 @@
     btop
   ];
 
+  programs.plotinus.enable = true;
+
   # set zsh as shell
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
