@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    picom
+    # picom
   ];
 
   services.picom.enable = true;
