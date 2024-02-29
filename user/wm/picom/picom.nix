@@ -5,7 +5,7 @@
     picom
   ];
 
-  services.picom = true;
+  services.picom.enable = true;
 
   # nixpkgs.overlays = [
   #   (self: super:
