@@ -99,10 +99,6 @@
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
-  programs.zsh.shellAliases = lib.mkDefault {
-    pullbuild = "cd ${userSettings.dotfilesDir} ; git pull ; sudo nixos-rebuild switch --flake .#system";
-  };
-
   fonts.fontDir.enable = true;
 
   xdg.portal = {
