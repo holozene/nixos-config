@@ -3,6 +3,7 @@
 {
   home.packages = with pkgs; [ networkmanager_dmenu networkmanagerapplet ];
 
+  # todo: 
   home.file.".config/networkmanager-dmenu/config.ini".text = ''
     [dmenu]
     dmenu_command = ''+dmenu_command+''
@@ -12,7 +13,7 @@
     list_saved = True
 
     [editor]
-    terminal = alacritty
+    terminal = ${userSettings.term}
     # gui_if_available = <True or False> (Default: True)
   '';
 }

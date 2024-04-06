@@ -12,11 +12,12 @@
               stylix.homeManagerModules.stylix
               ../../user/style/stylix.nix # Styling and themes
               (./. + "../../../user/wm"+("/"+userSettings.wm+"/"+userSettings.wm)+".nix") # window manager selected from flake
+              (./. + "../../../user/app/browser"+("/"+userSettings.browser)+".nix") # default browser selected from flake
+              (./. + "../../../user/app/editor"+("/"+userSettings.editor)+".nix") # default editor selected from flake
+              (./. + "../../../user/app/terminal"+("/"+userSettings.term)+".nix") # default terminal selected from flake
               ../../user/shell/sh.nix # zsh and bash config
               ../../user/shell/cli-collection.nix # Useful CLI apps
               ../../user/bin/phoenix.nix # nix command wrapper
-              (./. + "../../../user/app/browser"+("/"+userSettings.browser)+".nix") # default browser selected from flake
-              (./. + "../../../user/app/editor"+("/"+userSettings.editor)+".nix") # default editor selected from flake
               ../../user/app/ranger/ranger.nix # ranger file manager config
               ../../user/app/git/git.nix # git config
               ../../user/app/virtualization/virtualization.nix # Virtual machines
@@ -38,7 +39,7 @@
 
     spotify
     youtube-music
-    tdesktop
+    tdesktop # telegram
     vscode
 
     wine
@@ -46,9 +47,9 @@
 
     # Media
     gimp-with-plugins
-    pinta
-    krita
-    inkscape
+    pinta # basic paint
+    krita # paint
+    inkscape # vector
     musikcube
     vlc
     mpv
@@ -60,13 +61,13 @@
 
     # Office
     libreoffice-fresh
-    mate.atril
-    xournalpp
+    mate.atril # pdf viewer
+    xournalpp # pdf annotate
     glib
-    newsflash
+    newsflash # rss reader
     gnome.nautilus
     gnome.gnome-calendar
-    gnome.seahorse
+    gnome.seahorse # keyring manager
     gnome.gnome-maps
     openvpn
     protonmail-bridge

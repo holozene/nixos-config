@@ -367,6 +367,7 @@
       doCheck = false;
     })
   ];
+
   home.file.".config/hypr/pyprland.json".text = ''
     {
       "pyprland": {
@@ -758,7 +759,7 @@
   programs.fuzzel.settings = {
     main = {
       font = userSettings.font + ":size=13";
-      terminal = "${pkgs.alacritty}/bin/alacritty";
+      terminal = "${pkgs.wezterm}/bin/wezterm" # if (terminal == "alacritty") then "${pkgs.alacritty}/bin/alacritty" else userSettings.term;
     };
     colors = {
       background = config.lib.stylix.colors.base00 + "e6";
