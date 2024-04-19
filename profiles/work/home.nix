@@ -12,17 +12,14 @@
               (./. + "../../../user/wm"+("/"+userSettings.wm+"/"+userSettings.wm)+".nix") # My window manager selected from flake
               ../../user/shell/sh.nix # My zsh and bash config
               ../../user/shell/cli-collection.nix # Useful CLI apps
-              ../../user/app/doom-emacs/doom.nix # My doom emacs config
-              ../../user/app/ranger/ranger.nix # My ranger file manager config
-              ../../user/app/git/git.nix # My git config
-              ../../user/app/keepass/keepass.nix # My password manager
-              (./. + "../../../user/app/browser"+("/"+userSettings.browser)+".nix") # My default browser selected from flake
+              (./. + "../../../user/app/browser"+("/"+userSettings.browser)+".nix") # default browser selected from flake
+              (./. + "../../../user/app/editor"+("/"+userSettings.editor)+".nix") # default editor selected from flake
+              ../../user/app/ranger/ranger.nix # ranger file manager config
+              ../../user/app/git/git.nix # git config
               ../../user/app/virtualization/virtualization.nix # Virtual machines
               #../../user/app/flatpak/flatpak.nix # Flatpaks
               ../../user/style/stylix.nix # Styling and themes for my apps
               ../../user/lang/cc/cc.nix # C and C++ tools
-              ../../user/lang/godot/godot.nix # Game development
-              #../../user/pkgs/blockbench.nix # Blockbench ## marked as insecure
               ../../user/hardware/bluetooth.nix # Bluetooth
             ];
 
@@ -32,13 +29,32 @@
     # Core
     zsh
     alacritty
-    librewolf
-    brave
-    qutebrowser
     dmenu
     rofi
     git
     syncthing
+
+    spotify
+    youtube-music
+    tdesktop
+    vscode
+
+    wine
+    bottles
+
+    # Media
+    gimp-with-plugins
+    pinta
+    krita
+    inkscape
+    musikcube
+    vlc
+    mpv
+    yt-dlp
+    #freetube
+
+    audio-recorder
+    ffmpeg
 
     # Office
     libreoffice-fresh
@@ -138,7 +154,8 @@
 
     # Various dev packages
     texinfo
-    libffi zlib
+    libffi
+    zlib
     nodePackages.ungit
     ventoy
   ]) ++ ([ pkgs-kdenlive.kdenlive ]);
@@ -154,7 +171,7 @@
     pictures = "${config.home.homeDirectory}/Media/Pictures";
     templates = "${config.home.homeDirectory}/Templates";
     download = "${config.home.homeDirectory}/Downloads";
-    documents = "${config.home.homeDirectory}/Documents";
+    documents = "${config.home.homeDirectory}/Projects";
     desktop = null;
     publicShare = null;
     extraConfig = {
@@ -168,9 +185,6 @@
   };
   xdg.mime.enable = true;
   xdg.mimeApps.enable = true;
-  xdg.mimeApps.associations.added = {
-    "application/octet-stream" = "flstudio.desktop;";
-  };
 
   home.sessionVariables = {
     EDITOR = userSettings.editor;

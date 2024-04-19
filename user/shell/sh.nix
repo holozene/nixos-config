@@ -3,8 +3,10 @@ let
 
   # My shell aliases
   myAliases = {
+    cd = "zoxide";
     ls = "eza --icons -l -T -L=1";
     cat = "bat";
+    tree = "tre";
     htop = "btm";
     fd = "fd -Lu";
     w3m = "w3m -no-cookie -v";
@@ -36,9 +38,21 @@ in
 
   home.packages = with pkgs; [
     disfetch lolcat cowsay onefetch
-    gnugrep gnused
-    bat eza bottom fd bc
-    direnv nix-direnv
+
+    gnugrep
+    gnused
+
+    bc
+    zoxide # better cd
+    eza # better ls
+    bat # better cat
+    tre-command # better tree
+    fd # find files by name
+    
+    bottom
+    
+    direnv
+    nix-direnv
   ];
 
   programs.direnv.enable = true;
