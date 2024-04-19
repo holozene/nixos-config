@@ -11,7 +11,42 @@
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ zenpower ];
+  hardware.opengl.extraPackages = [ pkgs.amdvlk ];
+  hardware.opengl.extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
+
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+  ];
+
+  # my stupid usb hub crashes systemct suspend half of the time now
+  # https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Sleep_hooks
+  systemd.services.root-suspend = {
+    enable = true;
+    description = "Root systemd suspend prehook";
+    unitConfig = {
+      Description = "Root systemd suspend prehook";
+      Before = "sleep.target";
+    };
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.uhubctl}/bin/uhubctl -a off";
+    };
+    wantedBy = [ "sleep.target" ];
+  };
+  systemd.services.root-resume = {
+    enable = true;
+    description = "Root systemd suspend posthook";
+    unitConfig = {
+      Description = "Root systemd suspend posthook";
+      After = "suspend.target";
+    };
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.uhubctl}/bin/uhubctl -a on";
+    };
+    wantedBy = [ "suspend.target" ];
+  };
 
   services.btrfs.autoScrub = {
     enable = true;
@@ -26,7 +61,7 @@
 
   boot.initrd.luks.devices."luks-385106b5-71f7-460e-9a2b-2416f3b54cb6".device = "/dev/disk/by-uuid/385106b5-71f7-460e-9a2b-2416f3b54cb6";
 
-  fileSystems."/boot/efi" =
+  fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/F09D-73C9";
       fsType = "vfat";
     };

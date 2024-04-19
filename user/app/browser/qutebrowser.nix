@@ -1,10 +1,111 @@
 { config, pkgs, userSettings, ... }:
+let generateHomepage = name: font: config:
+  ''<!DOCTYPE html>
+    <html>
 
+    <head>
+      <title>My Local Dashboard Awesome Homepage</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+        /*body*/
+        body {
+            background-color: #''+config.lib.stylix.colors.base00+''
+
+        }
+        /*paragraphs*/
+        p {
+            font-family:''+font+'';
+
+            font-size:24px;
+            text-align:center;
+            color: #''+config.lib.stylix.colors.base08+'';
+
+            line-height: 1.35;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .open {
+          color: #''+config.lib.stylix.colors.base09+'';
+          font-weight: bold;
+        }
+        .quickmarks {
+          color: #''+config.lib.stylix.colors.base0A+'';
+          font-weight: bold;
+        }
+        .history {
+          color: #''+config.lib.stylix.colors.base0B+'';
+          font-weight: bold;
+        }
+        .newtab {
+          color: #''+config.lib.stylix.colors.base0C+'';
+          font-weight: bold;
+        }
+        .close {
+          color: #''+config.lib.stylix.colors.base0D+'';
+          font-weight: bold;
+        }
+
+        /*xmp tag style for ascii art*/
+        xmp {
+            font-family:''+font+'';
+
+            font-size:22px;
+            color: #''+config.lib.stylix.colors.base01+''
+
+            text-align:center;
+        }
+        /*div*/
+        div {
+            margin:auto;
+            width:50%;
+            text-align:center;
+        }
+        /*class made for ascii art icon*/
+        .icon {
+            line-height:10%
+        }
+      </style>
+    </head>
+
+    <body>
+      <!--start with cool qutebrowser ascii art-->
+      <div class="icon">
+           <xmp>       ..--------..        </xmp>
+           <xmp>    .``            "'.     </xmp>
+           <xmp>  .`  _.---.. /--|    '.   </xmp>
+           <xmp>   /``      ||   |         </xmp>
+           <xmp> /`  /--|   ||   |         </xmp>
+           <xmp>/   /   |   ||   `/----\,  </xmp>
+           <xmp>|   |   | .-`.-/- __.    \ </xmp>
+           <xmp>|   \   `-.`` ..-`   \    |</xmp>
+           <xmp>\    ````   ~.^` |    |   |</xmp>
+           <xmp> \.____.-``'||   |   /   / </xmp>
+           <xmp>        |   ||   |_.-   /  </xmp>
+           <xmp>        |   ||         /   </xmp>
+           <xmp>   .    |_-` `------~``.   </xmp>
+           <xmp>    `..             ..`    </xmp>
+           <xmp>       ``--______-'`       </xmp>
+      </div>
+      <br>
+      <!--qutebrowser title-->
+      <p style="color:#''+config.lib.stylix.colors.base01+''">Welcome to Qutebrowser</p>
+      <br>
+      <p><b>''+name+" "+''Profile</b></p>
+      <br>
+      <!--basic keyboard commands-->
+      <div>
+        <p class="open"> [o] [Search] </p>
+        <p class="quickmarks"> [b] [Quickmarks] </p>
+        <p class="history"> [S h] [History] </p>
+        <p class="newtab"> [t] [New tab] </p>
+        <p class="close"> [x] [Close tab] </p>
+      </div>
+    </body>
+
+    </html>
+  '';
+in
 {
-
-  nixpkgs.config.packageOverrides = pkgs: {
-    qutebrowser = pkgs.qutebrowser.override { enableVulkan = false; };
-  };
 
   home.packages = [ pkgs.qutebrowser
                     (pkgs.callPackage ./qute-containers.nix { dmenuCmd = "fuzzel -d"; })
@@ -41,12 +142,6 @@ base0D = "#''+config.lib.stylix.colors.base0D+''"
 base0E = "#''+config.lib.stylix.colors.base0E+''"
 base0F = "#''+config.lib.stylix.colors.base0F+''"
 
-# TODO stylix user CSS
-# current_stylesheet_directory = '~/.config/qutebrowser/themes/'
-# current_stylesheet = base16_theme+'-all-sites.css'
-# current_stylesheet_path = current_stylesheet_directory + current_stylesheet
-# config.set('content.user_stylesheets', current_stylesheet_path)
-
 config.set('content.cookies.accept', 'no-3rdparty', 'chrome-devtools://*')
 config.set('content.cookies.accept', 'no-3rdparty', 'devtools://*')
 
@@ -75,13 +170,22 @@ c.url.default_page = str(config.configdir)+'/qute-home.html'
 c.url.start_pages = str(config.configdir)+'/qute-home.html'
 
 c.url.searchengines = {'DEFAULT': 'https://startpage.com/do/search?query={}',
-                       'd'   : 'https://duckduckgo.com/?q={}&ia=web',
+                       'd'      : 'https://duckduckgo.com/?q={}&ia=web',
                        'az'     : 'https://www.amazon.com/s?k={}',
                        'aw'     : 'https://wiki.archlinux.org/index.php?search={}&title=Special%3ASearch&wprov=acrw1',
                        'nw'     : 'https://nixos.wiki/index.php?search={}&go=Go',
                        'mn'     : 'https://mynixos.com/search?q={}',
                        'sb'     : 'https://www.serebii.net/search.shtml?q={}&sa=Search',
-                       'bp'     : 'https://bulbapedia.bulbagarden.net/wiki/index.php?title=Special%3ASearch&search={}&go=Go'
+                       'bp'     : 'https://bulbapedia.bulbagarden.net/wiki/index.php?title=Special%3ASearch&search={}&go=Go',
+                       'yt'     : 'https://www.youtube.com/results?search_query={}',
+                       'od'     : 'https://odysee.com/$/search?q={}',
+                       'gd'     : 'https://drive.google.com/drive/search?q={}',
+                       'gh'     : 'https://github.com/search?q={}&type=repositories',
+                       'gl'     : 'https://gitlab.com/search?search={}&nav_source=navbar',
+                       'np'     : 'https://github.com/search?q=repo%3ANixOS%2Fnixpkgs%20{}&type=code',
+                       'wk'     : 'https://en.wikipedia.org/w/index.php?fulltext=1&search={}&title=Special%3ASearch&ns0=1',
+                       'th'     : 'https://www.thingiverse.com/search?q={}&page=1',
+                       'dh'     : 'https://hub.docker.com/search?q={}'
                       }
 
 config.set('completion.open_categories',["searchengines","quickmarks","bookmarks"])
@@ -93,15 +197,30 @@ config.set('fileselect.single_file.command', ['kitty','-e','ranger','--choosefil
 config.set('fileselect.multiple_files.command', ['kitty','-e','ranger','--choosefiles={}'])
 config.set('fileselect.folder.command', ['kitty','-e','ranger','--choosedir={}'])
 
+# bindings from doom emacs
+config.bind('<Alt-x>', 'cmd-set-text :')
+config.bind('<Ctrl-p>', 'completion-item-focus prev', mode='command')
+config.bind('<Ctrl-n>', 'completion-item-focus next', mode='command')
+
+# bindings from vimium
 config.bind('t', 'open -t')
 config.bind('x', 'tab-close')
 config.bind('yf', 'hint links yank')
+
+# spawn external programs
 config.bind(',m', 'hint links spawn mpv {hint-url}')
 config.bind(',co', 'spawn container-open')
 config.bind(',cf', 'hint links userscript container-open')
+
+# TODO stylix user CSS
+# current_stylesheet_directory = '~/.config/qutebrowser/themes/'
+# current_stylesheet = base16_theme+'-all-sites.css'
+# current_stylesheet_path = current_stylesheet_directory + current_stylesheet
+# config.set('content.user_stylesheets', current_stylesheet_path)
 #config.bind(',s', 'set content.user_stylesheets \'\' ')
 #config.bind(',S', 'set content.user_stylesheets '+current_stylesheet_path)
 
+# theming
 c.colors.completion.fg = base05
 c.colors.completion.odd.bg = base01
 c.colors.completion.even.bg = base00
@@ -207,765 +326,18 @@ c.fonts.web.family.fantasy = font
 c.fonts.web.family.cursive = font
   '';
 
-  home.file.".config/qutebrowser/qute-home.html".text = ''
-    <!DOCTYPE html>
-    <html>
-
-    <head>
-      <title>My Local Dashboard Awesome Homepage</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <style>
-        /*body*/
-        body {
-            background-color: #''+config.lib.stylix.colors.base00+''
-
-        }
-        /*paragraphs*/
-        p {
-            font-family:''+userSettings.font+'';
-
-            font-size:24px;
-            text-align:center;
-            color: #''+config.lib.stylix.colors.base08+'';
-
-            line-height: 1.35;
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        .open {
-          color: #''+config.lib.stylix.colors.base09+'';
-          font-weight: bold;
-        }
-        .quickmarks {
-          color: #''+config.lib.stylix.colors.base0A+'';
-          font-weight: bold;
-        }
-        .history {
-          color: #''+config.lib.stylix.colors.base0B+'';
-          font-weight: bold;
-        }
-        .newtab {
-          color: #''+config.lib.stylix.colors.base0C+'';
-          font-weight: bold;
-        }
-        .close {
-          color: #''+config.lib.stylix.colors.base0D+'';
-          font-weight: bold;
-        }
-
-        /*xmp tag style for ascii art*/
-        xmp {
-            font-family:''+userSettings.font+'';
-
-            font-size:22px;
-            color: #''+config.lib.stylix.colors.base01+''
-
-            text-align:center;
-        }
-        /*div*/
-        div {
-            margin:auto;
-            width:50%;
-            text-align:center;
-        }
-        /*class made for ascii art icon*/
-        .icon {
-            line-height:10%
-        }
-      </style>
-    </head>
-
-    <body>
-      <!--start with cool qutebrowser ascii art-->
-      <div class="icon">
-           <xmp>       ..--------..        </xmp>
-           <xmp>    .``            "'.     </xmp>
-           <xmp>  .`  _.---.. /--|    '.   </xmp>
-           <xmp>   /``      ||   |         </xmp>
-           <xmp> /`  /--|   ||   |         </xmp>
-           <xmp>/   /   |   ||   `/----\,  </xmp>
-           <xmp>|   |   | .-`.-/- __.    \ </xmp>
-           <xmp>|   \   `-.`` ..-`   \    |</xmp>
-           <xmp>\    ````   ~.^` |    |   |</xmp>
-           <xmp> \.____.-``'||   |   /   / </xmp>
-           <xmp>        |   ||   |_.-   /  </xmp>
-           <xmp>        |   ||         /   </xmp>
-           <xmp>   .    |_-` `------~``.   </xmp>
-           <xmp>    `..             ..`    </xmp>
-           <xmp>       ``--______-'`       </xmp>
-      </div>
-      <br>
-      <!--qutebrowser title-->
-      <p style="color:#''+config.lib.stylix.colors.base01+''">Welcome to Qutebrowser</p>
-      <br>
-      <p><b>Personal Profile</b></p>
-      <br>
-      <!--basic keyboard commands-->
-      <div>
-        <p class="open"> [o] [Search] </p>
-        <p class="quickmarks"> [b] [Quickmarks] </p>
-        <p class="history"> [S h] [History] </p>
-        <p class="newtab"> [t] [New tab] </p>
-        <p class="close"> [x] [Close tab] </p>
-      </div>
-    </body>
-
-    </html>
-    
-  '';
-
   home.file.".config/qutebrowser/containers".text = ''
 Teaching
 Tech
-Finances
-Gaming
 Gamedev
 Bard
   '';
 
-  # TODO make this final section more efficient...
-
-  home.file.".browser/Teaching/config/qute-home.html".text = ''
-  <!DOCTYPE html>
-  <html>
-
-  <head>
-    <title>My Local Dashboard Awesome Homepage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      /*body*/
-      body {
-          background-color: #''+config.lib.stylix.colors.base00+''
-
-      }
-      /*paragraphs*/
-      p {
-          font-family:''+userSettings.font+'';
-
-          font-size:24px;
-          text-align:center;
-          color: #''+config.lib.stylix.colors.base08+'';
-
-          line-height: 1.35;
-          margin-top: 0;
-          margin-bottom: 0;
-      }
-      .open {
-        color: #''+config.lib.stylix.colors.base09+'';
-        font-weight: bold;
-      }
-      .quickmarks {
-        color: #''+config.lib.stylix.colors.base0A+'';
-        font-weight: bold;
-      }
-      .history {
-        color: #''+config.lib.stylix.colors.base0B+'';
-        font-weight: bold;
-      }
-      .newtab {
-        color: #''+config.lib.stylix.colors.base0C+'';
-        font-weight: bold;
-      }
-      .close {
-        color: #''+config.lib.stylix.colors.base0D+'';
-        font-weight: bold;
-      }
-
-      /*xmp tag style for ascii art*/
-      xmp {
-          font-family:''+userSettings.font+'';
-
-          font-size:22px;
-          color: #''+config.lib.stylix.colors.base01+''
-
-          text-align:center;
-      }
-      /*div*/
-      div {
-          margin:auto;
-          width:50%;
-          text-align:center;
-      }
-      /*class made for ascii art icon*/
-      .icon {
-          line-height:10%
-      }
-    </style>
-  </head>
-
-  <body>
-    <!--start with cool qutebrowser ascii art-->
-    <div class="icon">
-         <xmp>       ..--------..        </xmp>
-         <xmp>    .``            "'.     </xmp>
-         <xmp>  .`  _.---.. /--|    '.   </xmp>
-         <xmp>   /``      ||   |         </xmp>
-         <xmp> /`  /--|   ||   |         </xmp>
-         <xmp>/   /   |   ||   `/----\,  </xmp>
-         <xmp>|   |   | .-`.-/- __.    \ </xmp>
-         <xmp>|   \   `-.`` ..-`   \    |</xmp>
-         <xmp>\    ````   ~.^` |    |   |</xmp>
-         <xmp> \.____.-``'||   |   /   / </xmp>
-         <xmp>        |   ||   |_.-   /  </xmp>
-         <xmp>        |   ||         /   </xmp>
-         <xmp>   .    |_-` `------~``.   </xmp>
-         <xmp>    `..             ..`    </xmp>
-         <xmp>       ``--______-'`       </xmp>
-    </div>
-    <br>
-    <!--qutebrowser title-->
-    <p style="color:#''+config.lib.stylix.colors.base01+''">Welcome to Qutebrowser</p>
-    <br>
-    <p><b>Teaching Profile</b></p>
-    <br>
-    <!--basic keyboard commands-->
-    <div>
-      <p class="open"> [o] [Search] </p>
-      <p class="quickmarks"> [b] [Quickmarks] </p>
-      <p class="history"> [S h] [History] </p>
-      <p class="newtab"> [t] [New tab] </p>
-      <p class="close"> [x] [Close tab] </p>
-    </div>
-  </body>
-
-  </html>
-
-  '';
-
-  home.file.".browser/Tech/config/qute-home.html".text = ''
-  <!DOCTYPE html>
-  <html>
-
-  <head>
-    <title>My Local Dashboard Awesome Homepage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      /*body*/
-      body {
-          background-color: #''+config.lib.stylix.colors.base00+''
-
-      }
-      /*paragraphs*/
-      p {
-          font-family:''+userSettings.font+'';
-
-          font-size:24px;
-          text-align:center;
-          color: #''+config.lib.stylix.colors.base08+'';
-
-          line-height: 1.35;
-          margin-top: 0;
-          margin-bottom: 0;
-      }
-      .open {
-        color: #''+config.lib.stylix.colors.base09+'';
-        font-weight: bold;
-      }
-      .quickmarks {
-        color: #''+config.lib.stylix.colors.base0A+'';
-        font-weight: bold;
-      }
-      .history {
-        color: #''+config.lib.stylix.colors.base0B+'';
-        font-weight: bold;
-      }
-      .newtab {
-        color: #''+config.lib.stylix.colors.base0C+'';
-        font-weight: bold;
-      }
-      .close {
-        color: #''+config.lib.stylix.colors.base0D+'';
-        font-weight: bold;
-      }
-
-      /*xmp tag style for ascii art*/
-      xmp {
-          font-family:''+userSettings.font+'';
-
-          font-size:22px;
-          color: #''+config.lib.stylix.colors.base01+''
-
-          text-align:center;
-      }
-      /*div*/
-      div {
-          margin:auto;
-          width:50%;
-          text-align:center;
-      }
-      /*class made for ascii art icon*/
-      .icon {
-          line-height:10%
-      }
-    </style>
-  </head>
-
-  <body>
-    <!--start with cool qutebrowser ascii art-->
-    <div class="icon">
-         <xmp>       ..--------..        </xmp>
-         <xmp>    .``            "'.     </xmp>
-         <xmp>  .`  _.---.. /--|    '.   </xmp>
-         <xmp>   /``      ||   |         </xmp>
-         <xmp> /`  /--|   ||   |         </xmp>
-         <xmp>/   /   |   ||   `/----\,  </xmp>
-         <xmp>|   |   | .-`.-/- __.    \ </xmp>
-         <xmp>|   \   `-.`` ..-`   \    |</xmp>
-         <xmp>\    ````   ~.^` |    |   |</xmp>
-         <xmp> \.____.-``'||   |   /   / </xmp>
-         <xmp>        |   ||   |_.-   /  </xmp>
-         <xmp>        |   ||         /   </xmp>
-         <xmp>   .    |_-` `------~``.   </xmp>
-         <xmp>    `..             ..`    </xmp>
-         <xmp>       ``--______-'`       </xmp>
-    </div>
-    <br>
-    <!--qutebrowser title-->
-    <p style="color:#''+config.lib.stylix.colors.base01+''">Welcome to Qutebrowser</p>
-    <br>
-    <p><b>Tech Profile</b></p>
-    <br>
-    <!--basic keyboard commands-->
-    <div>
-      <p class="open"> [o] [Search] </p>
-      <p class="quickmarks"> [b] [Quickmarks] </p>
-      <p class="history"> [S h] [History] </p>
-      <p class="newtab"> [t] [New tab] </p>
-      <p class="close"> [x] [Close tab] </p>
-    </div>
-  </body>
-
-  </html>
-
-  '';
-
-  home.file.".browser/Finances/config/qute-home.html".text = ''
-  <!DOCTYPE html>
-  <html>
-
-  <head>
-    <title>My Local Dashboard Awesome Homepage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      /*body*/
-      body {
-          background-color: #''+config.lib.stylix.colors.base00+''
-
-      }
-      /*paragraphs*/
-      p {
-          font-family:''+userSettings.font+'';
-
-          font-size:24px;
-          text-align:center;
-          color: #''+config.lib.stylix.colors.base08+'';
-
-          line-height: 1.35;
-          margin-top: 0;
-          margin-bottom: 0;
-      }
-      .open {
-        color: #''+config.lib.stylix.colors.base09+'';
-        font-weight: bold;
-      }
-      .quickmarks {
-        color: #''+config.lib.stylix.colors.base0A+'';
-        font-weight: bold;
-      }
-      .history {
-        color: #''+config.lib.stylix.colors.base0B+'';
-        font-weight: bold;
-      }
-      .newtab {
-        color: #''+config.lib.stylix.colors.base0C+'';
-        font-weight: bold;
-      }
-      .close {
-        color: #''+config.lib.stylix.colors.base0D+'';
-        font-weight: bold;
-      }
-
-      /*xmp tag style for ascii art*/
-      xmp {
-          font-family:''+userSettings.font+'';
-
-          font-size:22px;
-          color: #''+config.lib.stylix.colors.base01+''
-
-          text-align:center;
-      }
-      /*div*/
-      div {
-          margin:auto;
-          width:50%;
-          text-align:center;
-      }
-      /*class made for ascii art icon*/
-      .icon {
-          line-height:10%
-      }
-    </style>
-  </head>
-
-  <body>
-    <!--start with cool qutebrowser ascii art-->
-    <div class="icon">
-         <xmp>       ..--------..        </xmp>
-         <xmp>    .``            "'.     </xmp>
-         <xmp>  .`  _.---.. /--|    '.   </xmp>
-         <xmp>   /``      ||   |         </xmp>
-         <xmp> /`  /--|   ||   |         </xmp>
-         <xmp>/   /   |   ||   `/----\,  </xmp>
-         <xmp>|   |   | .-`.-/- __.    \ </xmp>
-         <xmp>|   \   `-.`` ..-`   \    |</xmp>
-         <xmp>\    ````   ~.^` |    |   |</xmp>
-         <xmp> \.____.-``'||   |   /   / </xmp>
-         <xmp>        |   ||   |_.-   /  </xmp>
-         <xmp>        |   ||         /   </xmp>
-         <xmp>   .    |_-` `------~``.   </xmp>
-         <xmp>    `..             ..`    </xmp>
-         <xmp>       ``--______-'`       </xmp>
-    </div>
-    <br>
-    <!--qutebrowser title-->
-    <p style="color:#''+config.lib.stylix.colors.base01+''">Welcome to Qutebrowser</p>
-    <br>
-    <p><b>Finances Profile</b></p>
-    <br>
-    <!--basic keyboard commands-->
-    <div>
-      <p class="open"> [o] [Search] </p>
-      <p class="quickmarks"> [b] [Quickmarks] </p>
-      <p class="history"> [S h] [History] </p>
-      <p class="newtab"> [t] [New tab] </p>
-      <p class="close"> [x] [Close tab] </p>
-    </div>
-  </body>
-
-  </html>
-
-  '';
-
-  home.file.".browser/Gamedev/config/qute-home.html".text = ''
-  <!DOCTYPE html>
-  <html>
-
-  <head>
-    <title>My Local Dashboard Awesome Homepage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      /*body*/
-      body {
-          background-color: #''+config.lib.stylix.colors.base00+''
-
-      }
-      /*paragraphs*/
-      p {
-          font-family:''+userSettings.font+'';
-
-          font-size:24px;
-          text-align:center;
-          color: #''+config.lib.stylix.colors.base08+'';
-
-          line-height: 1.35;
-          margin-top: 0;
-          margin-bottom: 0;
-      }
-      .open {
-        color: #''+config.lib.stylix.colors.base09+'';
-        font-weight: bold;
-      }
-      .quickmarks {
-        color: #''+config.lib.stylix.colors.base0A+'';
-        font-weight: bold;
-      }
-      .history {
-        color: #''+config.lib.stylix.colors.base0B+'';
-        font-weight: bold;
-      }
-      .newtab {
-        color: #''+config.lib.stylix.colors.base0C+'';
-        font-weight: bold;
-      }
-      .close {
-        color: #''+config.lib.stylix.colors.base0D+'';
-        font-weight: bold;
-      }
-
-      /*xmp tag style for ascii art*/
-      xmp {
-          font-family:''+userSettings.font+'';
-
-          font-size:22px;
-          color: #''+config.lib.stylix.colors.base01+''
-
-          text-align:center;
-      }
-      /*div*/
-      div {
-          margin:auto;
-          width:50%;
-          text-align:center;
-      }
-      /*class made for ascii art icon*/
-      .icon {
-          line-height:10%
-      }
-    </style>
-  </head>
-
-  <body>
-    <!--start with cool qutebrowser ascii art-->
-    <div class="icon">
-         <xmp>       ..--------..        </xmp>
-         <xmp>    .``            "'.     </xmp>
-         <xmp>  .`  _.---.. /--|    '.   </xmp>
-         <xmp>   /``      ||   |         </xmp>
-         <xmp> /`  /--|   ||   |         </xmp>
-         <xmp>/   /   |   ||   `/----\,  </xmp>
-         <xmp>|   |   | .-`.-/- __.    \ </xmp>
-         <xmp>|   \   `-.`` ..-`   \    |</xmp>
-         <xmp>\    ````   ~.^` |    |   |</xmp>
-         <xmp> \.____.-``'||   |   /   / </xmp>
-         <xmp>        |   ||   |_.-   /  </xmp>
-         <xmp>        |   ||         /   </xmp>
-         <xmp>   .    |_-` `------~``.   </xmp>
-         <xmp>    `..             ..`    </xmp>
-         <xmp>       ``--______-'`       </xmp>
-    </div>
-    <br>
-    <!--qutebrowser title-->
-    <p style="color:#''+config.lib.stylix.colors.base01+''">Welcome to Qutebrowser</p>
-    <br>
-    <p><b>Gamedev Profile</b></p>
-    <br>
-    <!--basic keyboard commands-->
-    <div>
-      <p class="open"> [o] [Search] </p>
-      <p class="quickmarks"> [b] [Quickmarks] </p>
-      <p class="history"> [S h] [History] </p>
-      <p class="newtab"> [t] [New tab] </p>
-      <p class="close"> [x] [Close tab] </p>
-    </div>
-  </body>
-
-  </html>
-
-  '';
-
-  home.file.".browser/Gaming/config/qute-home.html".text = ''
-  <!DOCTYPE html>
-  <html>
-
-  <head>
-    <title>My Local Dashboard Awesome Homepage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      /*body*/
-      body {
-          background-color: #''+config.lib.stylix.colors.base00+''
-
-      }
-      /*paragraphs*/
-      p {
-          font-family:''+userSettings.font+'';
-
-          font-size:24px;
-          text-align:center;
-          color: #''+config.lib.stylix.colors.base08+'';
-
-          line-height: 1.35;
-          margin-top: 0;
-          margin-bottom: 0;
-      }
-      .open {
-        color: #''+config.lib.stylix.colors.base09+'';
-        font-weight: bold;
-      }
-      .quickmarks {
-        color: #''+config.lib.stylix.colors.base0A+'';
-        font-weight: bold;
-      }
-      .history {
-        color: #''+config.lib.stylix.colors.base0B+'';
-        font-weight: bold;
-      }
-      .newtab {
-        color: #''+config.lib.stylix.colors.base0C+'';
-        font-weight: bold;
-      }
-      .close {
-        color: #''+config.lib.stylix.colors.base0D+'';
-        font-weight: bold;
-      }
-
-      /*xmp tag style for ascii art*/
-      xmp {
-          font-family:''+userSettings.font+'';
-
-          font-size:22px;
-          color: #''+config.lib.stylix.colors.base01+''
-
-          text-align:center;
-      }
-      /*div*/
-      div {
-          margin:auto;
-          width:50%;
-          text-align:center;
-      }
-      /*class made for ascii art icon*/
-      .icon {
-          line-height:10%
-      }
-    </style>
-  </head>
-
-  <body>
-    <!--start with cool qutebrowser ascii art-->
-    <div class="icon">
-         <xmp>       ..--------..        </xmp>
-         <xmp>    .``            "'.     </xmp>
-         <xmp>  .`  _.---.. /--|    '.   </xmp>
-         <xmp>   /``      ||   |         </xmp>
-         <xmp> /`  /--|   ||   |         </xmp>
-         <xmp>/   /   |   ||   `/----\,  </xmp>
-         <xmp>|   |   | .-`.-/- __.    \ </xmp>
-         <xmp>|   \   `-.`` ..-`   \    |</xmp>
-         <xmp>\    ````   ~.^` |    |   |</xmp>
-         <xmp> \.____.-``'||   |   /   / </xmp>
-         <xmp>        |   ||   |_.-   /  </xmp>
-         <xmp>        |   ||         /   </xmp>
-         <xmp>   .    |_-` `------~``.   </xmp>
-         <xmp>    `..             ..`    </xmp>
-         <xmp>       ``--______-'`       </xmp>
-    </div>
-    <br>
-    <!--qutebrowser title-->
-    <p style="color:#''+config.lib.stylix.colors.base01+''">Welcome to Qutebrowser</p>
-    <br>
-    <p><b>Gaming Profile</b></p>
-    <br>
-    <!--basic keyboard commands-->
-    <div>
-      <p class="open"> [o] [Search] </p>
-      <p class="quickmarks"> [b] [Quickmarks] </p>
-      <p class="history"> [S h] [History] </p>
-      <p class="newtab"> [t] [New tab] </p>
-      <p class="close"> [x] [Close tab] </p>
-    </div>
-  </body>
-
-  </html>
-
-  '';
-
-  home.file.".browser/Bard/config/qute-home.html".text = ''
-  <!DOCTYPE html>
-  <html>
-
-  <head>
-    <title>My Local Dashboard Awesome Homepage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      /*body*/
-      body {
-          background-color: #''+config.lib.stylix.colors.base00+''
-
-      }
-      /*paragraphs*/
-      p {
-          font-family:''+userSettings.font+'';
-
-          font-size:24px;
-          text-align:center;
-          color: #''+config.lib.stylix.colors.base08+'';
-
-          line-height: 1.35;
-          margin-top: 0;
-          margin-bottom: 0;
-      }
-      .open {
-        color: #''+config.lib.stylix.colors.base09+'';
-        font-weight: bold;
-      }
-      .quickmarks {
-        color: #''+config.lib.stylix.colors.base0A+'';
-        font-weight: bold;
-      }
-      .history {
-        color: #''+config.lib.stylix.colors.base0B+'';
-        font-weight: bold;
-      }
-      .newtab {
-        color: #''+config.lib.stylix.colors.base0C+'';
-        font-weight: bold;
-      }
-      .close {
-        color: #''+config.lib.stylix.colors.base0D+'';
-        font-weight: bold;
-      }
-
-      /*xmp tag style for ascii art*/
-      xmp {
-          font-family:''+userSettings.font+'';
-
-          font-size:22px;
-          color: #''+config.lib.stylix.colors.base01+''
-
-          text-align:center;
-      }
-      /*div*/
-      div {
-          margin:auto;
-          width:50%;
-          text-align:center;
-      }
-      /*class made for ascii art icon*/
-      .icon {
-          line-height:10%
-      }
-    </style>
-  </head>
-
-  <body>
-    <!--start with cool qutebrowser ascii art-->
-    <div class="icon">
-         <xmp>       ..--------..        </xmp>
-         <xmp>    .``            "'.     </xmp>
-         <xmp>  .`  _.---.. /--|    '.   </xmp>
-         <xmp>   /``      ||   |         </xmp>
-         <xmp> /`  /--|   ||   |         </xmp>
-         <xmp>/   /   |   ||   `/----\,  </xmp>
-         <xmp>|   |   | .-`.-/- __.    \ </xmp>
-         <xmp>|   \   `-.`` ..-`   \    |</xmp>
-         <xmp>\    ````   ~.^` |    |   |</xmp>
-         <xmp> \.____.-``'||   |   /   / </xmp>
-         <xmp>        |   ||   |_.-   /  </xmp>
-         <xmp>        |   ||         /   </xmp>
-         <xmp>   .    |_-` `------~``.   </xmp>
-         <xmp>    `..             ..`    </xmp>
-         <xmp>       ``--______-'`       </xmp>
-    </div>
-    <br>
-    <!--qutebrowser title-->
-    <p style="color:#''+config.lib.stylix.colors.base01+''">Welcome to Qutebrowser</p>
-    <br>
-    <p><b>Bard Profile</b></p>
-    <br>
-    <!--basic keyboard commands-->
-    <div>
-      <p class="open"> [o] [Search] </p>
-      <p class="quickmarks"> [b] [Quickmarks] </p>
-      <p class="history"> [S h] [History] </p>
-      <p class="newtab"> [t] [New tab] </p>
-      <p class="close"> [x] [Close tab] </p>
-    </div>
-  </body>
-
-  </html>
-
-  '';
-
+  home.file.".config/qutebrowser/qute-home.html".text = generateHomepage "Default" userSettings.font config;
+  home.file.".browser/Teaching/config/qute-home.html".text = generateHomepage "Teaching" userSettings.font config;
+  home.file.".browser/Tech/config/qute-home.html".text = generateHomepage "Tech" userSettings.font config;
+  home.file.".browser/Gaming/config/qute-home.html".text = generateHomepage "Gaming" userSettings.font config;
+  home.file.".browser/Gamedev/config/qute-home.html".text = generateHomepage "Gamedev" userSettings.font config;
+  home.file.".browser/Bard/config/qute-home.html".text = generateHomepage "Bard" userSettings.font config;
 
 }

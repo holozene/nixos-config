@@ -15,9 +15,9 @@
       ../../system/hardware/bluetooth.nix
       (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # window manager
       (if (systemSettings.keymap != "") then (./. + "../../../system/keymap"+("/"+systemSettings.keymap)+".nix") else null) # keymap
-      ../../system/app/flatpak.nix
+      # ../../system/app/flatpak.nix
       ../../system/app/virtualization.nix
-      # ( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
+      # ( import ../../system/app/docker.nix {storageDriver = null; inherit pkgs userSettings lib;} )
       ../../system/security/doas.nix
       ../../system/security/gpg.nix
       ../../system/security/blocklist.nix
@@ -47,13 +47,17 @@
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" "cpufreq_powersave" ];
 
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  # Use systemd-boot if uefi, default to grub otherwise
+  boot.loader.systemd-boot.enable = if (systemSettings.bootMode == "uefi") then true else false;
+  boot.loader.efi.canTouchEfiVariables = if (systemSettings.bootMode == "uefi") then true else false;
+  boot.loader.efi.efiSysMountPoint = systemSettings.bootMountPath; # does nothing if running bios rather than uefi
+  boot.loader.grub.enable = if (systemSettings.bootMode == "uefi") then false else true;
+  boot.loader.grub.device = systemSettings.grubDevice; # does nothing if running uefi rather than bios
 
   # Networking
   networking.hostName = systemSettings.hostname; # Define your hostname.
   networking.networkmanager.enable = true; # Use networkmanager
+  networking.networkmanager.wifi.backend = "iwd"; # wpa_supplicant broken :(
 
   # Timezone and locale
   time.timeZone = systemSettings.timezone; # time zone
@@ -74,7 +78,7 @@
   users.users.${userSettings.username} = {
     isNormalUser = true;
     description = userSettings.name;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" "dialout" ];
     packages = [];
     uid = 1000;
   };
@@ -87,6 +91,7 @@
     git
     cryptsetup
     home-manager
+    wpa_supplicant
   ];
 
   # set zsh as shell

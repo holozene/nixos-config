@@ -13,17 +13,14 @@ let
     neofetch = "disfetch";
     fetch = "disfetch";
     gitfetch = "onefetch";
-    nixos-rebuild = "systemd-run --no-ask-password --uid=0 --system --scope -p MemoryLimit=16000M -p CPUQuota=60% nixos-rebuild";
-    home-manager = "systemd-run --no-ask-password --uid=1000 --user --scope -p MemoryLimit=16000M -p CPUQuota=60% home-manager";
-    nixswitch = "systemd-run --no-ask-password --uid=0 --system --scope -p MemoryLimit=16000M -p CPUQuota=60% nixos-rebuild switch";
   };
 in
 {
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
-    enableCompletion = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    enableCompletion = true;
     shellAliases = myAliases;
     initExtra = ''
     PROMPT=" ◉ %U%F{magenta}%n%f%u@%U%F{blue}%m%f%u:%F{yellow}%~%f
