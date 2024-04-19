@@ -14,7 +14,7 @@
       ../../system/hardware/printing.nix
       ../../system/hardware/bluetooth.nix
       (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # window manager
-      (if (systemSettings.keymap != "") then (./. + "../../../system/keymap"+("/"+systemSettings.keymap)+".nix") else null) # keymap
+      # (if (systemSettings.keymap != null) then (./. + "../../../system/keymap"+("/"+systemSettings.keymap)+".nix") else null) # keymap
       # ../../system/app/flatpak.nix
       ../../system/app/virtualization.nix
       # ( import ../../system/app/docker.nix {storageDriver = null; inherit pkgs userSettings lib;} )
@@ -57,7 +57,6 @@
   # Networking
   networking.hostName = systemSettings.hostname; # Define your hostname.
   networking.networkmanager.enable = true; # Use networkmanager
-  networking.networkmanager.wifi.backend = "iwd"; # wpa_supplicant broken :(
 
   # Timezone and locale
   time.timeZone = systemSettings.timezone; # time zone
@@ -85,14 +84,21 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    vim
-    wget
     zsh
-    git
-    cryptsetup
     home-manager
     wpa_supplicant
+    cryptsetup
+    vim
+    bat
+    git
+    gh
+    wget
+    unixtools.fdisk
+    parted
+    btop
   ];
+
+  programs.plotinus.enable = true;
 
   # set zsh as shell
   environment.shells = with pkgs; [ zsh ];

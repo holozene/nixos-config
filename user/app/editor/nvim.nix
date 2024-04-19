@@ -1,15 +1,15 @@
-{ config, lib, pkgs, keymap, ... }:
+{ config, lib, pkgs, systemSettings, ... }:
 
 {
-  # Module installing neovim
-  home.packages = [ pkgs.vim pkgs.neovim ];
-
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
 
     # load an alternate keymap in init.vim (nix doesn't support lua config)
-    configure.customRC = # if (keymap == "qgmlwy") then
+    extraConfig = #if (systemSettings.keymap == "qgmlwy") then
       ''
         noremap k a
         noremap j o
@@ -29,20 +29,43 @@
     #     inoremap jj <esc>
     #     vnoremap ' <esc>
     #   '';
+    # else 
+    #   ''
+    #     inoremap jj <esc>
+    #     vnoremap ' <esc>
+    #   '';
 
-    configure.packages.myVimPackage = with pkgs.vimPlugins; {
-      # loaded on launch
-      start = [
-        telescope-nvim
-        # yankring-vim
-        vim-nix # nix support
-        vim-nixhash # automatic nix hash string replacement
-      ];
-      # manually loadable by calling `:packadd $plugin-name`
-      opt = [ ];
+    plugins = with pkgs.vimPlugins; [
+      telescope-nvim
+      # yankring-vim
+      vim-nix # nix support
+      vim-nixhash # automatic nix hash string replacement
+    ];
+    
+    coc = {
+      enable = true;
+      settings = {
+        # "suggest.noselect" = true;
+        # "suggest.enablePreview" = true;
+        # "suggest.enablePreselect" = false;
+        # "suggest.disableKind" = true;
+        # languageserver = {
+        #   haskell = {
+        #     command = "haskell-language-server-wrapper";
+        #     args = [ "--lsp" ];
+        #     rootPatterns = [
+        #       "*.cabal"
+        #       "stack.yaml"
+        #       "cabal.project"
+        #       "package.yaml"
+        #       "hie.yaml"
+        #     ];
+        #     filetypes = [ "haskell" "lhaskell" ];
+        #   };
+        # };
+      };
     };
-  }
-
+  };
 }
 
 # Keymap in lua (for use in init.lua if nixpkgs ever supports it)

@@ -10,9 +10,12 @@
   # Configure X11
   services.xserver = {
     enable = true;
-    layout = "us";
-    xkbVariant = "";
-    xkbOptions = "caps:escape";
+    xkb = {
+      layout = "us";
+      variant = "";
+      options = "caps:escape";
+    };
+
     excludePackages = [ pkgs.xterm ];
     displayManager = {
       lightdm.enable = true;

@@ -231,13 +231,9 @@
        monitor=HDMI-A-1,1920x1080,1920x0,1
        monitor=DP-1,1920x1080,0x0,1
 
-       # hdmi tv
+       # 2 monitor setup
        #monitor=eDP-1,1920x1080,1920x0,1
-       #monitor=HDMI-A-1,1920x1080,0x0,1
-
-       # hdmi work projector
-       #monitor=eDP-1,1920x1080,1920x0,1
-       #monitor=HDMI-A-1,1920x1200,0x0,1
+       #monitor=DP-1,1920x1200,0x0,1
 
        xwayland {
          force_zero_scaling = true
@@ -855,7 +851,7 @@
   programs.fuzzel.settings = {
     main = {
       font = userSettings.font + ":size=13";
-      terminal = "${pkgs.alacritty}/bin/alacritty";
+      terminal = "${pkgs.wezterm}/bin/wezterm" # if (terminal == "alacritty") then "${pkgs.alacritty}/bin/alacritty" else userSettings.term;
     };
     colors = {
       background = config.lib.stylix.colors.base00 + "e6";

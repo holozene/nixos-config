@@ -1,4 +1,5 @@
 { pkgs, ... }:
+
 {
   # Collection of useful CLI apps
   home.packages = with pkgs; [
@@ -10,7 +11,7 @@
     mdcat # cat markdown
     viu # view images
     chafa # approximate images (very well)
-    
+
     # meta
     progress # check progress of core unix commands
     noti # notify user on command completion
@@ -24,7 +25,7 @@
     rsync # file copy
     aria # download utility
     xh # send http requests
-    git 
+    git
     gh
     # lazy-git # git tui
     # git-ignore # fetch .gitignore templates from gitignore.io
@@ -58,7 +59,7 @@
     psmisc # process tools
     hwinfo
     brightnessctl
-
+    pciutils
 
     # Command Line
     disfetch starfetch
@@ -71,8 +72,6 @@
     w3m # terminal browser
     cava # audio visualizer
     pandoc
-    hwinfo
-    pciutils
     numbat
     (pkgs.callPackage ../pkgs/pokemon-colorscripts.nix { })
     (pkgs.writeShellScriptBin "airplane-mode" ''
@@ -85,6 +84,5 @@
           nmcli n on
       fi
     '')
-    vim neovim
   ];
 }

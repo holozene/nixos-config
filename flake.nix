@@ -1,14 +1,14 @@
 {
-  description = "Flake of LibrePhoenix";
+  description = "Holozene's NixOS Flake";
 
   outputs = inputs@{ self, ... }:
     let
       # ---- SYSTEM SETTINGS ---- #
       systemSettings = {
         system = "x86_64-linux"; # system arch
-        hostname = "snowfire"; # hostname
-        profile = "personal"; # select a profile defined from my profiles directory
-        timezone = "America/Chicago"; # select timezone
+        hostname = ""; # hostname
+        profile = ""; # select a profile defined from my profiles directory
+        timezone = "America/Los_Angeles"; # select timezone
         locale = "en_US.UTF-8"; # select locale
         keymap = "qgmlwy";
         bootMode = "uefi"; # uefi or bios
@@ -22,7 +22,7 @@
         name = "Holozene"; # name/identifier
         email = "holozene@proton.me"; # email (used for certain configurations)
         dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
-        theme = "uwunicorn-yt"; # selcted theme from my themes directory (./themes/)
+        theme = "uwunicorn"; # selcted theme from my themes directory (./themes/)
         wm = "hyprland"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
         # window manager type (hyprland or x11) translator
         wmType = if (wm == "hyprland") then "wayland" else "x11";
