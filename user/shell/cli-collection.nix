@@ -4,6 +4,7 @@
   # Collection of useful CLI apps
   home.packages = with pkgs; [
     # core
+    zoxide # better cd
     eza # better ls
     bat # better cat
     tre-command # better tree
@@ -57,27 +58,21 @@
     du-dust # tree of large files
     psmisc # process tools
     hwinfo
-
+    brightnessctl
+    pciutils
 
     # Command Line
-    disfetch neofetch onefetch starfetch
+    disfetch starfetch
     lolcat cowsay
     gnugrep gnused
     libnotify
     timer
     tmux
-
-    brightnessctl
+    
     w3m # terminal browser
     cava # audio visualizer
     pandoc
-    pciutils
-
-    (pkgs.callPackage ../pkgs/smartcalc.nix { })
-    (pkgs.writeShellScriptBin "sc" ''smartcalc'')
-    #(pkgs.callPackage ../pkgs/ytsub.nix { })
-    #(pkgs.callPackage ../pkgs/russ.nix { })
-    #(pkgs.python3Packages.callPackage ../pkgs/impressive.nix { })
+    numbat
     (pkgs.callPackage ../pkgs/pokemon-colorscripts.nix { })
     (pkgs.writeShellScriptBin "airplane-mode" ''
       #!/bin/sh
@@ -89,10 +84,5 @@
           nmcli n on
       fi
     '')
-  ];
-
-  imports = [
-    ../bin/phoenix.nix # My nix command wrapper
-    ../bin/ytsub-wrappers.nix # My ytsub wrapper
   ];
 }

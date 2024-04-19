@@ -1,4 +1,4 @@
-{ config, lib, pkgs, userSettings, ... }:
+{ config, lib, pkgs, inputs, userSettings, ... }:
 
 let
   themePath = "../../../themes"+("/"+userSettings.theme+"/"+userSettings.theme)+".yaml";
@@ -7,6 +7,9 @@ let
   backgroundSha256 = builtins.readFile (./. + "../../../themes/"+("/"+userSettings.theme)+"/backgroundsha256.txt");
 in
 {
+
+  imports = [ inputs.stylix.homeManagerModules.stylix ];
+
   home.file.".currenttheme".text = userSettings.theme;
   stylix.autoEnable = false;
   stylix.polarity = themePolarity;
@@ -70,6 +73,7 @@ in
     };
     font.size = config.stylix.fonts.sizes.terminal;
   };
+  stylix.targets.kde.enable = true;
   stylix.targets.kitty.enable = true;
   stylix.targets.gtk.enable = true;
   stylix.targets.rofi.enable = if (userSettings.wmType == "x11") then true else false;
@@ -119,20 +123,12 @@ in
     wallpaper = DP-1,''+config.stylix.image+''
   '';
   home.packages = with pkgs; [
-     qt5ct pkgs.libsForQt5.breeze-qt5
+     libsForQt5.qt5ct pkgs.libsForQt5.breeze-qt5 libsForQt5.breeze-icons
   ];
-  home.sessionVariables = {
-    QT_QPA_PLATFORMTHEME="qt5ct";
-  };
-  programs.zsh.sessionVariables = {
-    QT_QPA_PLATFORMTHEME="qt5ct";
-  };
-  programs.bash.sessionVariables = {
-    QT_QPA_PLATFORMTHEME="qt5ct";
-  };
   qt = {
     enable = true;
     style.package = pkgs.libsForQt5.breeze-qt5;
     style.name = "breeze-dark";
+    platformTheme = "kde";
   };
 }

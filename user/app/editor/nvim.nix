@@ -29,6 +29,11 @@
     #     inoremap jj <esc>
     #     vnoremap ' <esc>
     #   '';
+    # else 
+    #   ''
+    #     inoremap jj <esc>
+    #     vnoremap ' <esc>
+    #   '';
 
     plugins = with pkgs.vimPlugins; [
       telescope-nvim
