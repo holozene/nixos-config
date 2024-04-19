@@ -59,10 +59,8 @@ in
   home.packages = with pkgs; [
     pure-prompt
 
-    disfetch onefetch lolcat cowsay
-
-    gnugrep
-    gnused
+    disfetch onefetch
+    gnugrep gnused
 
     bc
     eza # better ls

@@ -13,6 +13,7 @@
     chafa # approximate images (very well)
 
     # meta
+    timer
     progress # check progress of core unix commands
     noti # notify user on command completion
     tealdeer # command guides
@@ -61,14 +62,12 @@
     brightnessctl
     pciutils
 
-    # Command Line
-    disfetch starfetch
-    lolcat cowsay
-    gnugrep gnused
+    # misc
+    starfetch
+    lolcat
+    cowsay
     libnotify
-    timer
     tmux
-    
     w3m # terminal browser
     cava # audio visualizer
     pandoc

@@ -6,8 +6,8 @@
       # ---- SYSTEM SETTINGS ---- #
       systemSettings = {
         system = "x86_64-linux"; # system arch
-        hostname = ""; # hostname
-        profile = ""; # select a profile defined from my profiles directory
+        hostname = "intellect"; # hostname
+        profile = "personal"; # select a profile defined from my profiles directory
         timezone = "America/Los_Angeles"; # select timezone
         locale = "en_US.UTF-8"; # select locale
         keymap = "qgmlwy";
